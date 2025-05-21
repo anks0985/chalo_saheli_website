@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import response from './posts.json';
-
-const InstagramCarousel = () => {
-    const carouselRef = useRef(null);
+import { Instagram } from 'lucide-react';
+const InstagramFeed = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState([]);
+    const scrollContainerRef = useRef(null);
     useEffect(() => {
         const fetchInstagramPosts = async () => {
             try {
@@ -16,18 +16,12 @@ const InstagramCarousel = () => {
                 setPosts(response.instagramPosts);
                 setIsLoading(false);
             } catch (error) {
-                console.error("Instagram carousel error:", error);
+                console.error("Instagram feed error:", error);
                 setIsLoading(false);
             }
         };
         fetchInstagramPosts();
     }, []);
-    useEffect(() => {
-        if (!posts.length) return;
-        if (window.instgrm) {
-            window.instgrm.Embeds.process();
-        }
-    }, [posts]);
     useEffect(() => {
         if (!posts.length) return;
         const loadInstagramScript = () => {
@@ -53,58 +47,78 @@ const InstagramCarousel = () => {
         loadInstagramScript();
     }, [posts]);
     return (
-        <section className="py-20 px-5 text-center bg-amber-500 text-white" id="stories">
-            <h2 className="text-4xl mb-3">Join Our Instagram Community</h2>
-            <p className="text-base mb-8 max-w-xl mx-auto">Follow @Chalo.Saheli for daily inspiration and travel stories</p>
-            <div className="relative">
-                <div className="carousel-wrapper overflow-x-auto overflow-y-hidden scroll-smooth pb-3 no-scrollbar">
-                    {isLoading ? (
-                        <div className="flex justify-center py-8">
-                            <div className="loading-indicator">Loading Instagram posts...</div>
+        <section className="py-16 relative bg-gradient-to-b from-purple-50 to-pink-50">
+            <div className="container mx-auto px-4">
+                <div className="flex items-center justify-center mb-10">
+                    <Instagram className="text-pink-500 mr-3" size={30} />
+                    <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500">
+                        Explore Our Adventures
+                    </h2>
+                </div>
+                <p className="text-lg text-center text-gray-700 mb-10 max-w-lg mx-auto">
+                    Join <span className="font-semibold text-pink-500">@Chalo.Saheli</span> for daily wanderlust and authentic travel experiences from women explorers around the world
+                </p>
+                {isLoading ? (
+                    <div className="flex justify-center py-12">
+                        <div className="flex flex-col items-center">
+                            <div className="w-12 h-12 rounded-full border-4 border-pink-200 border-t-pink-500 animate-spin mb-4"></div>
+                            <p className="text-gray-600">Loading amazing content...</p>
                         </div>
-                    ) : (
-                        <div className="flex gap-5 w-max px-3" id="instagram-carousel" ref={carouselRef}>
+                    </div>
+                ) : (
+                    <div className="relative">
+                        <div
+                            ref={scrollContainerRef}
+                            className="flex gap-6 overflow-x-auto py-4 px-6 snap-x scrollbar-hide scroll-smooth"
+                            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        >
                             {posts.map((url, index) => (
                                 <div
                                     key={index}
-                                    data-post-index={index}
-                                    className="instagram-post bg-white rounded-lg p-3 shadow-md transition-transform duration-300 hover:scale-105"
+                                    className=""
                                 >
-                                    <div className="cursor-pointer">
+                                    <div className="instagram-embed-container">
                                         <blockquote
                                             className="instagram-media"
                                             data-instgrm-permalink={url}
                                             data-instgrm-version="14"
                                             style={{
-                                                background: "black",
+                                                background: "#FFF",
                                                 border: "0",
-                                                borderRadius: "3px",
-                                                boxShadow: "0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)",
-                                                margin: "1px",
-                                                maxWidth: "540px",
-                                                minWidth: "326px",
+                                                borderRadius: "0",
+                                                boxShadow: "none",
+                                                margin: "0",
                                                 padding: "0",
-                                                width: "99.375%"
+                                                width: "100%"
                                             }}
                                         />
                                     </div>
                                 </div>
                             ))}
                         </div>
-                    )}
+                    </div>
+                )}
+                <div className="flex justify-center mt-8">
+                    <a
+                        href="https://www.instagram.com/chalo.saheli/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-full hover:shadow-lg transition-all duration-300"
+                    >
+                        <Instagram size={20} className="mr-2" />
+                        Follow Us on Instagram
+                    </a>
                 </div>
             </div>
             <style jsx>{`
-        .no-scrollbar::-webkit-scrollbar {
+        .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+        .instagram-embed-container iframe {
+          min-height: 380px !important;
         }
       `}</style>
         </section>
     );
 };
-
-export default InstagramCarousel;
+export default InstagramFeed;
