@@ -1,0 +1,478 @@
+        :root {
+            --blue: #CCEDFF;
+            --orange: #FF9000;
+            --pink: #CE597C;
+            --dark: #333333;
+            --light: #F8F8F8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/images/banner.png');
+            background-size: cover;
+            background-position: center;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background-color: var(--pink);
+            border-radius: 50%;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+        
+        h1 {
+            font-family: 'Anti-Hero', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        h2 {
+            font-family: 'Anti-Hero', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--orange);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            background-color: var(--orange);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            background-color: #e68200;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            background-color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-logo img {
+            width: 210px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .nav-logo span {
+            font-family: 'Anti-Hero', sans-serif;
+            font-size: 1.5rem;
+            color: var(--pink);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--pink);
+        }
+        
+        .section {
+            padding: 100px 50px;
+            text-align: center;
+        }
+        
+        .section-blue {
+            background-color: var(--blue);
+        }
+        
+        .section-pink {
+            background-color: var(--pink);
+            color: white;
+        }
+        
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 300px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .card-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card h3 {
+            font-family: 'Anti-Hero', sans-serif;
+            color: var(--orange);
+            margin-bottom: 10px;
+        }
+        
+/* Container that holds the van and road */
+.van-graphic {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 140px; /* enough to contain van and hide top whitespace */
+    overflow: hidden;
+    margin-top: -80px; /* overlaps the bottom of hero to hide GIF gap */
+    position: relative;
+    z-index: 10; /* just above hero bg but below nav or modal layers */
+}
+
+/* Inner container (no changes needed here) */
+.van-container {
+    position: relative;
+}
+
+/* Actual van GIF */
+.van-img {
+    height: auto;
+    max-height: 200px;
+    display: block;
+    margin-top: auto;
+    z-index: 11;
+    position: relative;
+}
+        
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .testimonial {
+            background-color: white;
+            color: #000;
+            padding: 30px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .testimonial-name {
+            font-weight: bold;
+        }
+        
+        .testimonial-location {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .instagram-section {
+            background-color: var(--orange);
+            color: white;
+            padding: 80px 50px;
+            text-align: center;
+        }
+        
+         /* 📸 Instagram Carousel Section */
+.instagram-section {
+  background-color: var(--orange);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.instagram-section h2 {
+  margin-bottom: 10px;
+}
+
+.instagram-section p {
+  font-size: 1rem;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 🚀 Carousel Scroll Wrapper */
+.carousel-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE 10+ */
+}
+
+.carousel-wrapper::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, Opera */
+}
+
+/* 📦 Carousel Container */
+.carousel {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding: 0 10px;
+}
+
+/* 🖼️ Instagram Embed Card */
+.instagram-post {
+  flex: 0 0 auto;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.instagram-post:hover {
+  transform: scale(1.02);
+}
+
+/* ✅ Responsive Scroll Fix */
+@media (max-width: 600px) {
+  .carousel {
+    gap: 12px;
+  }
+
+  .instagram-post {
+    width: 260px;
+    padding: 6px;
+  }
+
+  .instagram-section p {
+    font-size: 0.95rem;
+    padding: 0 10px;
+  }
+}
+            
+        
+       
+       
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            font-family: 'Anti-Hero', sans-serif;
+            margin-bottom: 20px;
+            color: var(--pink);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--pink);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--pink);
+            transform: translateY(-3px);
+        }
+        
+        .social-icon img {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .copyright {
+            margin-top: 50px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        /* Features section */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature {
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--pink);
+            margin-bottom: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section {
+                padding: 80px 20px;
+            }
+            
+            .instagram-post {
+                flex: 0 0 250px;
+                height: 250px;
+            }
+            
+            .instagram-section {
+                padding: 60px 20px;
+            }
+        }
