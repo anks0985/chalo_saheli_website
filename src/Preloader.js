@@ -177,7 +177,7 @@ const EnhancedPreloader = () => {
                     >
                         <img
                             src="/assets/images/logo.png"
-                            alt="Dimoss Jewellery Logo"
+                            alt="Chalo Saheli Logo"
                             className="w-full h-full object-cover rounded-full"
                             style={{
                                 animation: showLogo ? 'logo-reveal 1s forwards cubic-bezier(0.26, 0.53, 0.74, 1.48)' : 'none',
@@ -201,7 +201,7 @@ const EnhancedPreloader = () => {
                             opacity: 0
                         }}
                     >
-                        DIMOSS JEWELLERY
+                        Chalo Saheli
                     </h2>
                     <p
                         className="mt-2 text-brand-600 font-medium"
@@ -210,7 +210,7 @@ const EnhancedPreloader = () => {
                             opacity: 0
                         }}
                     >
-                        Loading Exquisite Collection...
+                        Where her 'maybe someday' becomes 'hell yes, today!'
                     </p>
                     <div className="mt-4 w-48 h-1 bg-brand-100 rounded-full overflow-hidden">
                         <div
