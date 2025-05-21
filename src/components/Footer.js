@@ -1,6 +1,5 @@
 import React from 'react';
 import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
-
 function Footer() {
     return (
         <footer className="bg-gray-800 text-white py-12 px-5 md:px-12 text-center" id="contact">
@@ -23,7 +22,6 @@ function Footer() {
                         </a>
                     </div>
                 </div>
-
                 <div className="w-full md:w-1/2 lg:w-1/4 mb-8">
                     <h3 className="text-xl mb-4 text-pink-600">Quick Links</h3>
                     <ul className="space-y-3 text-left md:text-center">
@@ -34,7 +32,6 @@ function Footer() {
                         <li><a href="#stories" className="hover:text-pink-600 transition-colors duration-300">Stories</a></li>
                     </ul>
                 </div>
-
                 <div className="w-full md:w-1/2 lg:w-1/4 mb-8">
                     <h3 className="text-xl mb-4 text-pink-600">Resources</h3>
                     <ul className="space-y-3 text-left md:text-center">
@@ -45,7 +42,6 @@ function Footer() {
                         <li><a href="#" className="hover:text-pink-600 transition-colors duration-300">FAQs</a></li>
                     </ul>
                 </div>
-
                 <div className="w-full md:w-1/2 lg:w-1/4 mb-8">
                     <h3 className="text-xl mb-4 text-pink-600">Contact Us</h3>
                     <p className="mb-2">Email: hello@chalosaheli.com</p>
@@ -53,12 +49,10 @@ function Footer() {
                     <p>Based in Delhi, India</p>
                 </div>
             </div>
-
             <div className="text-gray-400 text-sm mt-12">
                 &copy; 2025 Chalo Saheli. All Rights Reserved.
             </div>
         </footer>
     );
 }
-
 export default Footer;
