@@ -1,6 +1,6 @@
 {
-  "name": "projectname",
-  "homepage": "https://websitename.in/",
+  "name": "chalosaheli",
+  "homepage": "https://chalosaheli.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,7 +11,7 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "PORT=1234 react-scripts start",
+    "start": "react-scripts start",
     "predeploy": "npm run build && cp build/index.html build/404.html && cp CNAME build/",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
