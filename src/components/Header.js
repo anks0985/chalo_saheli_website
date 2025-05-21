@@ -1,44 +1,144 @@
-import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+  
+  // Handle scroll events to change header appearance
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+      
+      // Determine which section is currently in view
+      const sections = ['about', 'destinations', 'community', 'safety', 'stories', 'contact'];
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  
+  const navigationItems = [
+    { name: 'About Us', href: '#about' },
+    { name: 'Destinations', href: '#destinations' },
+    { name: 'Community', href: '#community' },
+    { name: 'Safety', href: '#safety' },
+    { name: 'Stories', href: '#stories' },
+    { name: 'Contact', href: '#contact' }
+  ];
   return (
-    <nav className="bg-white px-5 md:px-12 py-5 flex justify-between items-center shadow-md sticky top-0 z-50">
-      <div className="flex items-center">
-        <img src="/assets/images/logo-main.png" alt="Chalo Saheli Logo" className="w-40 h-auto" />
-      </div>
-      {/* Mobile menu button */}
-      <button
-        className="md:hidden text-gray-700 focus:outline-none"
-        onClick={toggleMenu}
-      >
-        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
-      {/* Desktop menu */}
-      <ul className="hidden md:flex space-x-8">
-        <li><a href="#about" className="text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300">About Us</a></li>
-        <li><a href="#destinations" className="text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300">Destinations</a></li>
-        <li><a href="#community" className="text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300">Community</a></li>
-        <li><a href="#safety" className="text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300">Safety</a></li>
-        <li><a href="#stories" className="text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300">Stories</a></li>
-        <li><a href="#contact" className="text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300">Contact</a></li>
-      </ul>
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-md z-50">
-          <ul className="flex flex-col py-4">
-            <li className="py-2"><a href="#about" className="block px-6 text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300" onClick={toggleMenu}>About Us</a></li>
-            <li className="py-2"><a href="#destinations" className="block px-6 text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300" onClick={toggleMenu}>Destinations</a></li>
-            <li className="py-2"><a href="#community" className="block px-6 text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300" onClick={toggleMenu}>Community</a></li>
-            <li className="py-2"><a href="#safety" className="block px-6 text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300" onClick={toggleMenu}>Safety</a></li>
-            <li className="py-2"><a href="#stories" className="block px-6 text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300" onClick={toggleMenu}>Stories</a></li>
-            <li className="py-2"><a href="#contact" className="block px-6 text-gray-800 font-medium hover:text-pink-600 transition-colors duration-300" onClick={toggleMenu}>Contact</a></li>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white shadow-md py-2' 
+        : 'bg-transparent py-4'
+    }`}>
+      <div className="container mx-auto px-5 md:px-12 flex justify-between items-center">
+        {/* Logo area */}
+        <div className="flex items-center">
+          <div className={`transition-all duration-300 flex items-center ${isScrolled ? 'scale-90' : 'scale-100'}`}>
+            <img 
+              src="/assets/images/logo-main.png" 
+              alt="Chalo Saheli Logo" 
+              className="h-12 w-auto" 
+            />
+            
+          </div>
+        </div>
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden focus:outline-none text-pink-600"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+        {/* Desktop menu */}
+        <div className="hidden md:block">
+          <ul className="flex items-center space-x-1 lg:space-x-2">
+            {navigationItems.map((item) => (
+              <li key={item.name}>
+                <a 
+                  href={item.href}
+                  className={`px-3 py-2 rounded-full font-medium text-sm lg:text-base transition-all duration-200 inline-block ${
+                    activeSection === item.href.substring(1)
+                      ? 'text-white bg-pink-600' 
+                      : isScrolled 
+                        ? 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
+                        : 'text-white hover:bg-white/20'
+                  }`}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+            <li className="ml-2">
+              <a 
+                href="https://www.instagram.com/chalo.saheli/" 
+                className="bg-amber-500 text-white px-5 py-2 rounded-full font-medium text-sm lg:text-base hover:bg-amber-600 transition-all duration-300 shadow-md hover:shadow-lg"
+              >
+                Join Now
+              </a>
+            </li>
           </ul>
         </div>
+      </div>
+      {/* Mobile menu overlay */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-black/50 z-40" onClick={toggleMenu}></div>
       )}
+      {/* Mobile menu panel */}
+      <div 
+        className={`md:hidden fixed top-0 right-0 bottom-0 w-64 bg-white shadow-xl z-50 transition-all duration-300 transform ${
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        } overflow-y-auto`}
+      >
+        <div className="p-5 border-b border-gray-100 flex justify-between items-center">
+          <span className="font-bold text-pink-600 text-xl">Menu</span>
+          <button className="text-gray-500" onClick={toggleMenu}>
+            <X size={24} />
+          </button>
+        </div>
+        <ul className="py-4">
+          {navigationItems.map((item) => (
+            <li key={item.name} className="border-b border-gray-100 last:border-b-0">
+              <a 
+                href={item.href} 
+                className={`block px-5 py-3 font-medium transition-colors duration-200 ${
+                  activeSection === item.href.substring(1)
+                    ? 'text-pink-600 bg-pink-50'
+                    : 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
+                }`} 
+                onClick={toggleMenu}
+              >
+                {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="p-5">
+          <a 
+            href="https://www.instagram.com/chalo.saheli/" 
+            className="block w-full bg-amber-500 text-white text-center py-3 rounded-full font-medium hover:bg-amber-600 transition-all duration-300 shadow-md"
+            onClick={toggleMenu}
+          >
+            Join Our Community
+          </a>
+        </div>
+      </div>
     </nav>
   );
 }

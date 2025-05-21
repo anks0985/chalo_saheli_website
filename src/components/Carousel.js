@@ -47,7 +47,7 @@ const InstagramFeed = () => {
         loadInstagramScript();
     }, [posts]);
     return (
-        <section className="py-16 relative bg-gradient-to-b from-purple-50 to-pink-50">
+        <section id="stories" className="py-16 relative bg-gradient-to-b from-purple-200 to-pink-200">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-center mb-10">
                     <Instagram className="text-pink-500 mr-3" size={30} />
