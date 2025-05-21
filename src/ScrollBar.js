@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 const CustomRoadScrollbar = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
     const [maxScroll, setMaxScroll] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
     useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
         const updateScrollDimensions = () => {
             const documentHeight = document.documentElement.scrollHeight;
             const windowHeight = window.innerHeight;
@@ -12,12 +16,26 @@ const CustomRoadScrollbar = () => {
             const currentPosition = window.pageYOffset;
             setScrollPosition(currentPosition);
         };
+        checkMobile();
         updateScrollDimensions();
         window.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', updateScrollDimensions);
+        window.addEventListener('resize', () => {
+            updateScrollDimensions();
+            checkMobile();
+        });
+        const observer = new MutationObserver(updateScrollDimensions);
+        const storiesElement = document.getElementById("stories");
+        if (storiesElement) {
+            observer.observe(storiesElement, {
+                childList: true,
+                subtree: true,
+                attributes: true
+            });
+        }
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', updateScrollDimensions);
+            if (storiesElement) observer.disconnect();
         };
     }, []);
     const handleRoadClick = (e) => {
@@ -35,6 +53,9 @@ const CustomRoadScrollbar = () => {
     const busPosition = maxScroll > 0
         ? (scrollPosition / maxScroll) * roadHeight
         : 0;
+    if (isMobile) {
+        return null;
+    }
     return (
         <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 select-none">
             <div
@@ -72,18 +93,6 @@ const ScrollbarWrapper = ({ children }) => {
     return (
         <div className="relative">
             <div className="scroll-container">
-                <style jsx global>{`
-                    html, body {
-                        scrollbar-width: none;
-                        -ms-overflow-style: none;
-                    }
-                    
-                    body::-webkit-scrollbar {
-                        width: 0;
-                        height: 0;
-                        display: none;
-                    }
-                `}</style>
                 {children}
             </div>
             <CustomRoadScrollbar />

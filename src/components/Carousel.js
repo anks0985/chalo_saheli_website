@@ -110,14 +110,6 @@ const InstagramFeed = () => {
                     </a>
                 </div>
             </div>
-            <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .instagram-embed-container iframe {
-          min-height: 380px !important;
-        }
-      `}</style>
         </section>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,13 +49,13 @@ function Header() {
       }`}>
       <div className="container mx-auto px-5 md:px-12 flex justify-between items-center">
         <div className="flex items-center">
-          <Link to="/" className={`transition-all duration-300 flex items-center ${isScrolled ? 'scale-90' : 'scale-100'}`}>
+          <a href="/" className={`transition-all duration-300 flex items-center ${isScrolled ? 'scale-90' : 'scale-100'}`}>
             <img
               src="/assets/images/logo-main.png"
               alt="Chalo Saheli Logo"
               className="h-12 w-auto"
             />
-          </Link>
+          </a>
         </div>
         <button
           className="md:hidden focus:outline-none text-pink-600"
@@ -69,8 +69,8 @@ function Header() {
             {navigationItems.map((item) => (
               <li key={item.name}>
                 {item.href === '/contact' ? (
-                  <Link
-                    to={item.href}
+                  <a
+                    href={item.href}
                     className={`px-3 py-2 rounded-full font-medium text-sm lg:text-base transition-all duration-200 inline-block ${activeSection === item.section
                       ? 'text-white bg-pink-600'
                       : isScrolled
@@ -79,9 +79,9 @@ function Header() {
                       }`}
                   >
                     {item.name}
-                  </Link>
+                  </a>
                 ) : (
-                  <Link to={item.href}
+                  <a href={item.href}
                     className={`px-3 py-2 rounded-full font-medium text-sm lg:text-base transition-all duration-200 inline-block ${activeSection === item.section
                       ? 'text-white bg-pink-600'
                       : isScrolled
@@ -90,16 +90,16 @@ function Header() {
                       }`}
                   >
                     {item.name}
-                  </Link>
+                  </a>
                 )}
               </li>
             ))}
             <li className="ml-2">
-              <Link to="https://www.instagram.com/chalo.saheli/"
+              <a href="https://www.instagram.com/chalo.saheli/"
                 className="bg-amber-500 text-white px-5 py-2 rounded-full font-medium text-sm lg:text-base hover:bg-amber-600 transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 Join Now
-              </Link>
+              </a>
             </li>
           </ul>
         </div>
@@ -121,8 +121,8 @@ function Header() {
           {navigationItems.map((item) => (
             <li key={item.name} className="border-b border-gray-100 last:border-b-0">
               {item.href === '/contact' ? (
-                <Link
-                  to={item.href}
+                <a
+                  href={item.href}
                   className={`block px-5 py-3 font-medium transition-colors duration-200 ${activeSection === item.section
                     ? 'text-pink-600 bg-pink-50'
                     : 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
@@ -130,9 +130,9 @@ function Header() {
                   onClick={toggleMenu}
                 >
                   {item.name}
-                </Link>
+                </a>
               ) : (
-                <Link to={item.href}
+                <a href={item.href}
                   className={`block px-5 py-3 font-medium transition-colors duration-200 ${activeSection === item.section
                     ? 'text-pink-600 bg-pink-50'
                     : 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
@@ -140,18 +140,18 @@ function Header() {
                   onClick={toggleMenu}
                 >
                   {item.name}
-                </Link>
+                </a>
               )}
             </li>
           ))}
         </ul>
         <div className="p-5">
-          <Link to="https://www.instagram.com/chalo.saheli/"
+          <a href="https://www.instagram.com/chalo.saheli/"
             className="block w-full bg-amber-500 text-white text-center py-3 rounded-full font-medium hover:bg-amber-600 transition-all duration-300 shadow-md"
             onClick={toggleMenu}
           >
             Join Our Community
-          </Link>
+          </a>
         </div>
       </div>
     </nav>
