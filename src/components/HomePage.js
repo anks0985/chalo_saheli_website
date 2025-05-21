@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Shield, Search, Users, Map, Instagram } from 'lucide-react';
-// Import the Instagram component from your existing file
-// Make sure this path matches your actual file structure
+import { useState, useEffect, useRef } from 'react';
+import { Shield, Search, Users, Map } from 'lucide-react';
 import InstagramCarousel from './Carousel';
-// Custom hook to detect when elements are in viewport
+import { Link } from 'react-router-dom';
 const useIntersectionObserver = (options = {}) => {
   const [elements, setElements] = useState([]);
   const [entries, setEntries] = useState([]);
@@ -32,7 +30,6 @@ const useIntersectionObserver = (options = {}) => {
   }, [elements, root, rootMargin, threshold]);
   return { observer, setElements, entries };
 };
-// Component for animations that trigger each time an element enters or exits viewport
 const AnimatedElement = ({ children, animation = 'fade-up', delay = 0, duration = 0.5, className = '' }) => {
   const elementRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -44,10 +41,8 @@ const AnimatedElement = ({ children, animation = 'fade-up', delay = 0, duration 
       setElements([elementRef]);
     }
   }, [setElements]);
-  // Update visibility based on intersection
   useEffect(() => {
     const currentElement = elementRef.current;
-
     entries.forEach(entry => {
       if (entry.target === currentElement) {
         setIsVisible(entry.isIntersecting);
@@ -56,9 +51,7 @@ const AnimatedElement = ({ children, animation = 'fade-up', delay = 0, duration 
   }, [entries]);
   const getAnimationClass = () => {
     if (!isVisible) return `invisible opacity-0`;
-
     const baseTransition = `transition-all duration-${duration * 1000} delay-${delay * 1000} ease-out`;
-
     switch (animation) {
       case 'fade-up':
         return `transform translate-y-0 opacity-100 ${baseTransition}`;
@@ -106,7 +99,6 @@ const AnimatedElement = ({ children, animation = 'fade-up', delay = 0, duration 
     </div>
   );
 };
-// Original HeroSection with subtle animation
 const HeroSection = () => {
   return (
     <div className="relative flex flex-col justify-center items-center text-center text-white h-[90vh] bg-cover bg-center"
@@ -117,28 +109,24 @@ const HeroSection = () => {
             <img src="/assets/images/logo.png" alt="Chalo Saheli Logo" className="w-4/5 h-4/5 object-contain" />
           </div>
         </AnimatedElement>
-
         <AnimatedElement animation="fade-up" delay={0.2} duration={0.8}>
           <h1 className="text-6xl mb-5 drop-shadow-md">Chalo Saheli</h1>
         </AnimatedElement>
-
         <AnimatedElement animation="fade-up" delay={0.4} duration={0.8}>
           <p className="text-2xl mb-8">Where her 'maybe someday' becomes 'hell yes, today!'</p>
         </AnimatedElement>
-
         <AnimatedElement animation="fade-up" delay={0.6} duration={0.8}>
-          <a href='https://www.instagram.com/chalo.saheli/' className="bg-amber-500 text-white border-none py-4 px-10 text-xl rounded-full cursor-pointer transition-all duration-300 font-bold uppercase tracking-wider hover:bg-amber-600 hover:-translate-y-1 hover:shadow-lg">
+          <Link to='https://www.instagram.com/chalo.saheli/' className="bg-amber-500 text-white border-none py-4 px-10 text-xl rounded-full cursor-pointer transition-all duration-300 font-bold uppercase tracking-wider hover:bg-amber-600 hover:-translate-y-1 hover:shadow-lg">
             Join Our Community
-          </a>
+          </Link>
         </AnimatedElement>
       </div>
     </div>
   );
 };
-// Animated Bus without parallax
 const AnimatedBus = () => {
   return (
-    <div className="relative h-auto overflow-hidden z-10 -mt-24">
+    <div className="relative h-auto overflow-hidden z-10 mt-24 bg-white">
       <div className="relative">
         <img
           src="/assets/images/bus.gif"
@@ -149,7 +137,6 @@ const AnimatedBus = () => {
     </div>
   );
 };
-// Enhanced About Section with scroll animations
 const AboutSection = () => {
   const features = [
     {
@@ -168,17 +155,14 @@ const AboutSection = () => {
       description: "Access to exclusive travel guides, tips, and deals specifically curated for women travelers."
     }
   ];
-
   return (
     <section className="pt-10 pb-24 px-12 text-center" id="about">
       <AnimatedElement animation="fade-up">
         <h2 className="text-4xl mb-5 text-amber-500">Women's Only Travel Community</h2>
       </AnimatedElement>
-
       <AnimatedElement animation="fade-up" delay={0.2}>
         <p className="text-lg mb-12">Empowering | Adventurous | Trustworthy | Inclusive</p>
       </AnimatedElement>
-
       <div className="flex flex-wrap justify-center gap-8">
         {features.map((feature, index) => (
           <AnimatedElement
@@ -202,7 +186,6 @@ const AboutSection = () => {
     </section>
   );
 };
-// Enhanced Destinations Section with scroll animations and proper card spacing
 const DestinationsSection = () => {
   const destinations = [
     {
@@ -221,17 +204,14 @@ const DestinationsSection = () => {
       description: "Royal heritage, colorful culture, and desert adventures."
     }
   ];
-
   return (
     <section className="pt-10 pb-24 px-12 text-center bg-blue-100 relative" id="destinations">
       <AnimatedElement animation="fade-up">
         <h2 className="text-4xl mb-5 text-amber-500">Popular Destinations</h2>
       </AnimatedElement>
-
       <AnimatedElement animation="fade-up" delay={0.2}>
         <p className="text-lg mb-12">Discover new places with confidence and community support</p>
       </AnimatedElement>
-
       <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
         {destinations.map((destination, index) => (
           <AnimatedElement
@@ -261,40 +241,35 @@ const DestinationsSection = () => {
     </section>
   );
 };
-// Enhanced Community Section with scroll animations
 const CommunitySection = () => {
   const testimonials = [
     {
-      image: "/api/placeholder/60/60",
+      image: "/assets/images/Simran Arora.png",
       name: "Simran Arora",
       location: "Delhi",
       testimonial: "Thanks to Chalo Saheli, I found the courage to take that solo trip to Rishikesh I'd been dreaming about for years. The safety tips and community support made all the difference!"
     },
     {
-      image: "/api/placeholder/60/60",
+      image: "/assets/images/Dr. Harjeet Kaur.png",
       name: "Dr. Harjeet Kaur",
       location: "Patiala",
       testimonial: "At 49, I thought my travel dreams were behind me. Chalo Saheli connected me with women my age who love adventure just as much as I do. We're planning our third trip together!"
     },
     {
-      image: "/api/placeholder/60/60",
+      image: "/assets/images/Priya Sharma.png",
       name: "Priya Sharma",
       location: "Bangalore",
       testimonial: "The local insights from other community members helped me discover hidden gems in Goa that I would have never found otherwise. This is more than just travel tips—it's a sisterhood."
     }
   ];
-
-  // Staggered animation effect
   return (
     <section className="pt-10 pb-24 px-12 text-center bg-pink-600 text-white" id="community">
       <AnimatedElement animation="fade-up">
         <h2 className="text-4xl mb-5">Meet Our Community</h2>
       </AnimatedElement>
-
       <AnimatedElement animation="fade-up" delay={0.2}>
         <p className="text-lg mb-12">Real women, real stories, real adventures</p>
       </AnimatedElement>
-
       <div className="flex flex-wrap justify-center gap-8">
         {testimonials.map((testimonial, index) => (
           <AnimatedElement
@@ -319,7 +294,6 @@ const CommunitySection = () => {
     </section>
   );
 };
-// Enhanced Safety Section with scroll animations
 const SafetySection = () => {
   const features = [
     {
@@ -343,17 +317,14 @@ const SafetySection = () => {
       description: "Detailed information about local customs, safe areas, and women-friendly establishments."
     }
   ];
-
   return (
     <section className="pt-10 pb-24 px-12 text-center" id="safety">
       <AnimatedElement animation="fade-up">
         <h2 className="text-4xl mb-5 text-amber-500">Your Safety, Our Priority</h2>
       </AnimatedElement>
-
       <AnimatedElement animation="fade-up" delay={0.2}>
         <p className="text-lg mb-12">We believe every woman deserves to travel without fear</p>
       </AnimatedElement>
-
       <div className="flex flex-wrap justify-center gap-8 mt-12">
         {features.map((feature, index) => (
           <AnimatedElement
@@ -375,7 +346,6 @@ const SafetySection = () => {
     </section>
   );
 };
-// Counter Section with animation
 const CounterSection = () => {
   const [counters, setCounters] = useState({
     travelers: 0,
@@ -383,27 +353,21 @@ const CounterSection = () => {
     trips: 0,
     ratings: 0
   });
-
   const counterRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const animationStarted = useRef(false);
-
   const { setElements, entries } = useIntersectionObserver({
     threshold: 0.1
   });
-
   useEffect(() => {
     if (counterRef.current) {
       setElements([counterRef]);
     }
   }, [setElements]);
-
   useEffect(() => {
     const currentElement = counterRef.current;
-
     entries.forEach(entry => {
       if (entry.target === currentElement) {
-        // Update visibility and restart animation when element comes back into view
         if (entry.isIntersecting) {
           setIsVisible(true);
           if (!animationStarted.current) {
@@ -422,44 +386,35 @@ const CounterSection = () => {
       }
     });
   }, [entries]);
-
   useEffect(() => {
     if (isVisible) {
       const interval = setInterval(() => {
         setCounters(prev => {
           const newCounters = { ...prev };
-
           if (newCounters.travelers < 15000) {
             newCounters.travelers = Math.min(newCounters.travelers + 500, 15000);
           }
-
           if (newCounters.destinations < 100) {
             newCounters.destinations = Math.min(newCounters.destinations + 4, 100);
           }
-
           if (newCounters.trips < 250) {
             newCounters.trips = Math.min(newCounters.trips + 10, 250);
           }
-
           if (newCounters.ratings < 4.8) {
             newCounters.ratings = Math.min(newCounters.ratings + 0.2, 4.8);
           }
-
           return newCounters;
         });
       }, 50);
-
       return () => clearInterval(interval);
     }
   }, [isVisible]);
-
   const stats = [
     { label: "Happy Travelers", value: counters.travelers.toLocaleString(), suffix: "+" },
     { label: "Destinations", value: counters.destinations, suffix: "+" },
     { label: "Trips Organized", value: counters.trips, suffix: "+" },
     { label: "Average Rating", value: counters.ratings.toFixed(1), suffix: "/5" }
   ];
-
   return (
     <section
       ref={counterRef}
@@ -489,18 +444,15 @@ const CounterSection = () => {
     </section>
   );
 };
-// Main HomePage component with all sections and proper spacing
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
       <HeroSection />
-      <AnimatedBus />
       <AboutSection />
       <DestinationsSection />
       <CounterSection />
       <CommunitySection />
       <SafetySection />
-      {/* Important: Use your existing InstagramCarousel component */}
       <InstagramCarousel />
     </div>
   );
