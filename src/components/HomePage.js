@@ -105,8 +105,8 @@ const HeroSection = () => {
       style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/banner.png')" }}>
       <div className="z-10 max-w-3xl px-5">
         <AnimatedElement animation="zoom-in" duration={0.8}>
-          <div className="w-32 h-32 bg-pink-600 rounded-full mb-5 flex justify-center items-center mx-auto">
-            <img src="/assets/images/logo.png" alt="Chalo Saheli Logo" className="w-4/5 h-4/5 object-contain" />
+          <div className="w-48 h-48 bg-pink-600 rounded-full mb-5 flex justify-center items-center mx-auto">
+            <img src="/assets/images/logo.png" alt="Chalo Saheli Logo" className="w-11/12 h-w-11/12 object-contain" />
           </div>
         </AnimatedElement>
         <AnimatedElement animation="fade-up" delay={0.2} duration={0.8}>

@@ -5,6 +5,7 @@ const AnimatedRoadScrollbar = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
     const roadRef = useRef(null);
+    const roadBackgroundRef = useRef(null);
     useEffect(() => {
         if (typeof document !== 'undefined' && !document.getElementById('road-animations')) {
             const styleSheet = document.createElement('style');
@@ -68,31 +69,26 @@ const AnimatedRoadScrollbar = () => {
             if (storiesElement) observer.disconnect();
         };
     }, [isDragging]);
-    const handleRoadClick = (e) => {
-        if (isDragging) return;
+    const getClickPosition = (e) => {
         const road = roadRef.current;
+        if (!road) return 0;
         const roadRect = road.getBoundingClientRect();
-        const clickPositionRatio = (e.clientX - roadRect.left) / roadRect.width;
-        const newScrollPosition = clickPositionRatio * maxScroll;
-        window.scrollTo({
-            top: newScrollPosition,
-            behavior: 'smooth'
-        });
+        return (e.clientX - roadRect.left) / roadRect.width;
     };
-    const handleRoadMouseDown = (e) => {
+    const handleRoadInteraction = (e) => {
+        if (e.target.closest('.bus-container')) return;
+        
         e.preventDefault();
-        const road = roadRef.current;
-        const roadRect = road.getBoundingClientRect();
-        const mousePositionRatio = (e.clientX - roadRect.left) / roadRect.width;
-        const clampedRatio = Math.max(0, Math.min(1, mousePositionRatio));
+        e.stopPropagation();
+        
+        const clickPositionRatio = getClickPosition(e);
+        const clampedRatio = Math.max(0, Math.min(1, clickPositionRatio));
         const newScrollPosition = clampedRatio * maxScroll;
+        
         window.scrollTo({
             top: newScrollPosition,
             behavior: 'smooth'
         });
-        setTimeout(() => {
-            setIsDragging(true);
-        }, 50);
     };
     const handleBusMouseDown = (e) => {
         e.preventDefault();
@@ -101,11 +97,11 @@ const AnimatedRoadScrollbar = () => {
     };
     const handleMouseMove = (e) => {
         if (!isDragging || !roadRef.current) return;
-        const road = roadRef.current;
-        const roadRect = road.getBoundingClientRect();
-        const mousePositionRatio = (e.clientX - roadRect.left) / roadRef.current.width;
-        const clampedRatio = Math.max(0, Math.min(1, mousePositionRatio));
+        
+        const clickPositionRatio = getClickPosition(e);
+        const clampedRatio = Math.max(0, Math.min(1, clickPositionRatio));
         const newScrollPosition = clampedRatio * maxScroll;
+        
         setScrollPosition(newScrollPosition);
         window.scrollTo({
             top: newScrollPosition,
@@ -120,11 +116,15 @@ const AnimatedRoadScrollbar = () => {
             document.addEventListener('mousemove', handleMouseMove);
             document.addEventListener('mouseup', handleMouseUp);
             document.body.style.userSelect = 'none';
+            document.body.style.cursor = 'grabbing';
+        } else {
+            document.body.style.cursor = '';
         }
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
             document.body.style.userSelect = '';
+            document.body.style.cursor = '';
         };
     }, [isDragging, maxScroll]);
     const busWidthPercent = 8;
@@ -140,11 +140,11 @@ const AnimatedRoadScrollbar = () => {
             <div
                 ref={roadRef}
                 className="w-full h-10 relative cursor-pointer flex items-center"
-                onClick={handleRoadClick}
-                onMouseDown={handleRoadMouseDown}
+                onClick={handleRoadInteraction}
             >
                 <div
-                    className='w-full h-10 road-animate-slow'
+                    ref={roadBackgroundRef}
+                    className='absolute inset-0 w-full h-10 road-animate-slow pointer-events-none'
                     style={{
                         backgroundImage: 'url(/assets/images/road.png)',
                         backgroundRepeat: 'repeat-x',
@@ -152,10 +152,12 @@ const AnimatedRoadScrollbar = () => {
                         backgroundPosition: 'left center'
                     }}
                 />
+                
                 <div
-                    className={`absolute top- -translate-y-1/2 w-22 h-20 ${isDragging ? 'transition-none' : 'transition-all duration-100 ease-out'}`}
+                    className={`bus-container absolute top- -translate-y-1/2 w-22 h-20 z-10 ${isDragging ? 'transition-none' : 'transition-all duration-100 ease-out'}`}
                     style={{
-                        left: `${busPosition}vw`,
+                        left: `${busPosition}%`,
+                        transform: 'translateY(-50%)'
                     }}
                 >
                     <img
