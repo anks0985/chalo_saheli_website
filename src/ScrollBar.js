@@ -1,10 +1,36 @@
 import { useState, useEffect, useRef } from 'react';
-const CustomRoadScrollbar = () => {
+const AnimatedRoadScrollbar = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
     const [maxScroll, setMaxScroll] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
     const roadRef = useRef(null);
+    useEffect(() => {
+        if (typeof document !== 'undefined' && !document.getElementById('road-animations')) {
+            const styleSheet = document.createElement('style');
+            styleSheet.id = 'road-animations';
+            styleSheet.innerHTML = `
+                @keyframes road-moving-slow {
+                    0% { background-position-x: 0px; }
+                    100% { background-position-x: -200px; }
+                }
+                
+                @keyframes road-moving-fast {
+                    0% { background-position-x: 0px; }
+                    100% { background-position-x: -200px; }
+                }
+                
+                .road-animate-slow {
+                    animation: road-moving-slow 4s linear infinite;
+                }
+                
+                .road-animate-fast {
+                    animation: road-moving-fast 1s linear infinite;
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        }
+    }, []);
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -77,7 +103,7 @@ const CustomRoadScrollbar = () => {
         if (!isDragging || !roadRef.current) return;
         const road = roadRef.current;
         const roadRect = road.getBoundingClientRect();
-        const mousePositionRatio = (e.clientX - roadRect.left) / roadRect.width;
+        const mousePositionRatio = (e.clientX - roadRect.left) / roadRef.current.width;
         const clampedRatio = Math.max(0, Math.min(1, mousePositionRatio));
         const newScrollPosition = clampedRatio * maxScroll;
         setScrollPosition(newScrollPosition);
@@ -118,11 +144,11 @@ const CustomRoadScrollbar = () => {
                 onMouseDown={handleRoadMouseDown}
             >
                 <div
-                    className="w-full h-10"
+                    className='w-full h-10 road-animate-slow'
                     style={{
                         backgroundImage: 'url(/assets/images/road.png)',
                         backgroundRepeat: 'repeat-x',
-                        backgroundSize: 'auto 100%',
+                        backgroundSize: '100px 100%',
                         backgroundPosition: 'left center'
                     }}
                 />
@@ -153,7 +179,7 @@ const ScrollbarWrapper = ({ children }) => {
             <div className="scroll-container">
                 {children}
             </div>
-            <CustomRoadScrollbar />
+            <AnimatedRoadScrollbar />
         </div>
     );
 };
