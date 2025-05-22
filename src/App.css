@@ -1,14 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 html,
 body {
+    margin: 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
-
 body::-webkit-scrollbar {
     width: 0;
     height: 0;

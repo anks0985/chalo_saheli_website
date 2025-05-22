@@ -1,4 +1,4 @@
-import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Youtube, Copyright } from 'lucide-react';
 function Footer() {
     return (
         <footer className="bg-gray-800 text-white py-12 px-5 md:px-12 text-center" id="contact">
@@ -29,17 +29,7 @@ function Footer() {
                         <li><a href="/#community" className="hover:text-pink-600 transition-colors duration-300">Community</a></li>
                         <li><a href="/#safety" className="hover:text-pink-600 transition-colors duration-300">Safety</a></li>
                         <li><a href="/#stories" className="hover:text-pink-600 transition-colors duration-300">Stories</a></li>
-                        <li><a href="/contact" className="hover:text-pink-600 transition-colors duration-300">Contact</a></li>
-                    </ul>
-                </div>
-                <div className="w-full md:w-1/2 lg:w-1/4 mb-8">
-                    <h3 className="text-xl mb-4 text-pink-600">Resources</h3>
-                    <ul className="space-y-3 text-left md:text-center">
-                        <li><a href="/" className="hover:text-pink-600 transition-colors duration-300">Safety Guidelines</a></li>
-                        <li><a href="/" className="hover:text-pink-600 transition-colors duration-300">Travel Insurance</a></li>
-                        <li><a href="/" className="hover:text-pink-600 transition-colors duration-300">Packing Tips</a></li>
-                        <li><a href="/" className="hover:text-pink-600 transition-colors duration-300">Solo Travel Guide</a></li>
-                        <li><a href="/" className="hover:text-pink-600 transition-colors duration-300">FAQs</a></li>
+                        <li><a href="/#contact" className="hover:text-pink-600 transition-colors duration-300">Contact</a></li>
                     </ul>
                 </div>
                 <div className="w-full md:w-1/2 lg:w-1/4 mb-8">
@@ -47,11 +37,11 @@ function Footer() {
                     <p className="mb-2">Email: <a href="mailto:hello@chalosaheli.com" className="hover:text-pink-600 transition-colors duration-300">hello@chalosaheli.com</a></p>
                     <p className="mb-2">Instagram: <a href="https://www.instagram.com/chalo.saheli/" className="hover:text-pink-600 transition-colors duration-300">@Chalo.Saheli</a></p>
                     <p>Based in Delhi, India</p>
-                    <a href="/contact" className="inline-block mt-4 px-4 py-2 bg-pink-600 rounded-full hover:bg-pink-700 transition-colors duration-300">Contact Page</a>
                 </div>
             </div>
-            <div className="text-gray-400 text-sm mt-12">
-                &copy; 2025 Chalo Saheli. All Rights Reserved.
+            <div className="text-gray-400 text-sm mt-12 flex justify-center items-center">
+                <Copyright size={16} className="mr-2" />
+                {new Date().getFullYear()} Chalo Saheli. All Rights Reserved.
             </div>
         </footer>
     );

@@ -1,0 +1,22 @@
+function doGet() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+  const lastRow = sheet.getLastRow();
+  
+  if (lastRow < 1) {
+    return ContentService.createTextOutput(JSON.stringify([]))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  const range = sheet.getRange(1, 1, lastRow, 1);
+  const values = range.getValues();
+  const filledRows = [];
+  
+  values.forEach((row, index) => {
+    if (row[0] !== "" && row[0] !== null && row[0] !== undefined) {
+      filledRows.push(row[0]);
+    }
+  });
+  
+  return ContentService.createTextOutput(JSON.stringify(filledRows))
+    .setMimeType(ContentService.MimeType.JSON);
+}

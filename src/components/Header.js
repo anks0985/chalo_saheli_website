@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 function Header() {
@@ -10,7 +10,7 @@ function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
       if (location.pathname === '/') {
-        const sections = ['about', 'destinations', 'community', 'safety', 'stories'];
+        const sections = ['about', 'destinations', 'community', 'safety', 'stories', 'contact'];
         for (const section of sections) {
           const element = document.getElementById(section);
           if (element) {
@@ -26,11 +26,6 @@ function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [location.pathname]);
-  useEffect(() => {
-    if (location.pathname === '/contact') {
-      setActiveSection('contact');
-    }
-  }, [location.pathname]);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -40,7 +35,7 @@ function Header() {
     { name: 'Community', href: '/#community', section: 'community' },
     { name: 'Safety', href: '/#safety', section: 'safety' },
     { name: 'Stories', href: '/#stories', section: 'stories' },
-    { name: 'Contact', href: '/contact', section: 'contact' }
+    { name: 'Contact', href: '/#contact', section: 'contact' }
   ];
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
@@ -68,30 +63,16 @@ function Header() {
           <ul className="flex items-center space-x-1 lg:space-x-2">
             {navigationItems.map((item) => (
               <li key={item.name}>
-                {item.href === '/contact' ? (
-                  <a
-                    href={item.href}
-                    className={`px-3 py-2 rounded-full font-medium text-sm lg:text-base transition-all duration-200 inline-block ${activeSection === item.section
-                      ? 'text-white bg-pink-600'
-                      : isScrolled
-                        ? 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
-                        : 'text-white hover:bg-white/20'
-                      }`}
-                  >
-                    {item.name}
-                  </a>
-                ) : (
-                  <a href={item.href}
-                    className={`px-3 py-2 rounded-full font-medium text-sm lg:text-base transition-all duration-200 inline-block ${activeSection === item.section
-                      ? 'text-white bg-pink-600'
-                      : isScrolled
-                        ? 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
-                        : 'text-white hover:bg-white/20'
-                      }`}
-                  >
-                    {item.name}
-                  </a>
-                )}
+                <a href={item.href}
+                  className={`px-3 py-2 rounded-full font-medium text-sm lg:text-base transition-all duration-200 inline-block ${activeSection === item.section
+                    ? 'text-white bg-pink-600'
+                    : isScrolled
+                      ? 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
+                      : 'text-white hover:bg-white/20'
+                    }`}
+                >
+                  {item.name}
+                </a>
               </li>
             ))}
             <li className="ml-2">
@@ -120,28 +101,15 @@ function Header() {
         <ul className="py-4">
           {navigationItems.map((item) => (
             <li key={item.name} className="border-b border-gray-100 last:border-b-0">
-              {item.href === '/contact' ? (
-                <a
-                  href={item.href}
-                  className={`block px-5 py-3 font-medium transition-colors duration-200 ${activeSection === item.section
-                    ? 'text-pink-600 bg-pink-50'
-                    : 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
-                    }`}
-                  onClick={toggleMenu}
-                >
-                  {item.name}
-                </a>
-              ) : (
-                <a href={item.href}
-                  className={`block px-5 py-3 font-medium transition-colors duration-200 ${activeSection === item.section
-                    ? 'text-pink-600 bg-pink-50'
-                    : 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
-                    }`}
-                  onClick={toggleMenu}
-                >
-                  {item.name}
-                </a>
-              )}
+              <a href={item.href}
+                className={`block px-5 py-3 font-medium transition-colors duration-200 ${activeSection === item.section
+                  ? 'text-pink-600 bg-pink-50'
+                  : 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
+                  }`}
+                onClick={toggleMenu}
+              >
+                {item.name}
+              </a>
             </li>
           ))}
         </ul>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 const EnhancedPreloader = () => {
     const [fadeOut, setFadeOut] = useState(false);
     const [loadingProgress, setLoadingProgress] = useState(0);

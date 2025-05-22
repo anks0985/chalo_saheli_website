@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import response from './posts.json';
+import { useState, useEffect, useRef } from 'react';
 import { Instagram } from 'lucide-react';
 const InstagramFeed = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -8,12 +7,14 @@ const InstagramFeed = () => {
     useEffect(() => {
         const fetchInstagramPosts = async () => {
             try {
-                if (!response || !response.instagramPosts || !Array.isArray(response.instagramPosts)) {
+                let responseData = await fetch("https://script.google.com/macros/s/AKfycbzTal5tagxh0WHY1lik4DBC4mQ_wVNSxQXCKnDVtRg24zoEqhtMbd9Vffx5IiIY1sKg/exec");
+                let response = await responseData.json();
+                if (!response || !Array.isArray(response)) {
                     console.error("Invalid Instagram posts data structure");
                     setIsLoading(false);
                     return;
                 }
-                setPosts(response.instagramPosts);
+                setPosts(response);
                 setIsLoading(false);
             } catch (error) {
                 console.error("Instagram feed error:", error);
@@ -53,7 +54,6 @@ const InstagramFeed = () => {
         const startAutoScroll = () => {
             scrollInterval = setInterval(() => {
                 const maxScrollLeft = container.scrollWidth - container.clientWidth;
-
                 if (container.scrollLeft >= maxScrollLeft) {
                     container.scrollTo({ left: 0, behavior: 'smooth' });
                 } else {

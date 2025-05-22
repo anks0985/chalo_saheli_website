@@ -24,15 +24,14 @@ function AppContent() {
     }, [location.pathname]);
     return (
         <>
-            {loading ? <Preloader /> : (
-                <ScrollbarWrapper>
-                    <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                    </Routes>
-                    <Footer />
-                </ScrollbarWrapper>
-            )}
+            <ScrollbarWrapper>
+                <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                </Routes>
+                <Footer />
+            </ScrollbarWrapper>
+            {loading && <Preloader />}
         </>
     );
 }
