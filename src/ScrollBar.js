@@ -46,7 +46,7 @@ const CustomRoadScrollbar = () => {
         if (isDragging) return;
         const road = roadRef.current;
         const roadRect = road.getBoundingClientRect();
-        const clickPositionRatio = (e.clientY - roadRect.top) / roadRect.height;
+        const clickPositionRatio = (e.clientX - roadRect.left) / roadRect.width;
         const newScrollPosition = clickPositionRatio * maxScroll;
         window.scrollTo({
             top: newScrollPosition,
@@ -57,7 +57,7 @@ const CustomRoadScrollbar = () => {
         e.preventDefault();
         const road = roadRef.current;
         const roadRect = road.getBoundingClientRect();
-        const mousePositionRatio = (e.clientY - roadRect.top) / roadRect.height;
+        const mousePositionRatio = (e.clientX - roadRect.left) / roadRect.width;
         const clampedRatio = Math.max(0, Math.min(1, mousePositionRatio));
         const newScrollPosition = clampedRatio * maxScroll;
         window.scrollTo({
@@ -77,7 +77,7 @@ const CustomRoadScrollbar = () => {
         if (!isDragging || !roadRef.current) return;
         const road = roadRef.current;
         const roadRect = road.getBoundingClientRect();
-        const mousePositionRatio = (e.clientY - roadRect.top) / roadRect.height;
+        const mousePositionRatio = (e.clientX - roadRect.left) / roadRect.width;
         const clampedRatio = Math.max(0, Math.min(1, mousePositionRatio));
         const newScrollPosition = clampedRatio * maxScroll;
         setScrollPosition(newScrollPosition);
@@ -101,34 +101,35 @@ const CustomRoadScrollbar = () => {
             document.body.style.userSelect = '';
         };
     }, [isDragging, maxScroll]);
-    const busHeightPercent = 20;
-    const roadHeight = 100 - busHeightPercent;
+    const busWidthPercent = 8;
+    const roadWidth = 100 - busWidthPercent;
     const busPosition = maxScroll > 0
-        ? (scrollPosition / maxScroll) * roadHeight
+        ? (scrollPosition / maxScroll) * roadWidth
         : 0;
     if (isMobile) {
         return null;
     }
     return (
-        <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 select-none">
+        <div className="fixed bottom-0 left-0 w-full z-50 select-none">
             <div
                 ref={roadRef}
-                className="h-screen relative cursor-pointer flex justify-center"
+                className="w-full h-10 relative cursor-pointer flex items-center"
                 onClick={handleRoadClick}
                 onMouseDown={handleRoadMouseDown}
             >
-                <div className="relative h-full w-10">
-                    <img
-                        src="/assets/images/road.png"
-                        alt="Road"
-                        className="h-full object-cover object-center"
-                    />
-                </div>
                 <div
-                    className={`absolute left-1/5 -translate-x-1/2 w-20 ${isDragging ? 'transition-none' : 'transition-all duration-100 ease-out'}`}
+                    className="w-full h-10"
                     style={{
-                        top: `${busPosition}vh`,
-                        height: '20vh',
+                        backgroundImage: 'url(/assets/images/road.png)',
+                        backgroundRepeat: 'repeat-x',
+                        backgroundSize: 'auto 100%',
+                        backgroundPosition: 'left center'
+                    }}
+                />
+                <div
+                    className={`absolute top- -translate-y-1/2 w-22 h-20 ${isDragging ? 'transition-none' : 'transition-all duration-100 ease-out'}`}
+                    style={{
+                        left: `${busPosition}vw`,
                     }}
                 >
                     <img
