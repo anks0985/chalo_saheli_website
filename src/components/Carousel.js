@@ -46,6 +46,44 @@ const InstagramFeed = () => {
         };
         loadInstagramScript();
     }, [posts]);
+    useEffect(() => {
+        if (!posts.length || !scrollContainerRef.current) return;
+        const container = scrollContainerRef.current;
+        let scrollInterval;
+        const startAutoScroll = () => {
+            scrollInterval = setInterval(() => {
+                const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+                if (container.scrollLeft >= maxScrollLeft) {
+                    container.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    container.scrollBy({ left: 320, behavior: 'smooth' });
+                }
+            }, 3000);
+        };
+        const stopAutoScroll = () => {
+            if (scrollInterval) {
+                clearInterval(scrollInterval);
+            }
+        };
+        const timer = setTimeout(() => {
+            startAutoScroll();
+        }, 2000);
+        container.addEventListener('mouseenter', stopAutoScroll);
+        container.addEventListener('mouseleave', startAutoScroll);
+        container.addEventListener('touchstart', stopAutoScroll);
+        container.addEventListener('touchend', () => {
+            setTimeout(startAutoScroll, 3000);
+        });
+        return () => {
+            clearTimeout(timer);
+            stopAutoScroll();
+            container.removeEventListener('mouseenter', stopAutoScroll);
+            container.removeEventListener('mouseleave', startAutoScroll);
+            container.removeEventListener('touchstart', stopAutoScroll);
+            container.removeEventListener('touchend', startAutoScroll);
+        };
+    }, [posts]);
     return (
         <section id="stories" className="py-16 relative bg-gradient-to-b from-purple-200 to-pink-200">
             <div className="container mx-auto px-4">
@@ -66,7 +104,7 @@ const InstagramFeed = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="relative">
+                    <div className="relative h-[650px] overflow-hidden">
                         <div
                             ref={scrollContainerRef}
                             className="flex gap-6 overflow-x-auto py-4 px-6 snap-x scrollbar-hide scroll-smooth"
