@@ -25,7 +25,7 @@ function Footer() {
                     <h3 className="text-xl mb-4 text-pink-600">Quick Links</h3>
                     <ul className="space-y-3 text-left md:text-center">
                         <li><a href="/#about" className="hover:text-pink-600 transition-colors duration-300">About Us</a></li>
-                        <li><a href="/#destinations" className="hover:text-pink-600 transition-colors duration-300">Destinations</a></li>
+                        <li><a href="/#destinations" className="hover:text-pink-600 transition-colors duration-300">Places We've Visited & Upcoming Trips</a></li>
                         <li><a href="/#community" className="hover:text-pink-600 transition-colors duration-300">Community</a></li>
                         <li><a href="/#safety" className="hover:text-pink-600 transition-colors duration-300">Safety</a></li>
                         <li><a href="/#stories" className="hover:text-pink-600 transition-colors duration-300">Stories</a></li>

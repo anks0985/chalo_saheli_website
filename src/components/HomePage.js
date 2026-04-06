@@ -186,58 +186,238 @@ const AboutSection = () => {
     </section>
   );
 };
-const DestinationsSection = () => {
-  const destinations = [
+const PlacesVisitedSection = () => {
+  const placesRowRef = useRef(null);
+  const [isCarouselPaused, setIsCarouselPaused] = useState(false);
+  const [selectedPlaceIndex, setSelectedPlaceIndex] = useState(null);
+
+  useEffect(() => {
+    const row = placesRowRef.current;
+    if (!row) return undefined;
+    if (isCarouselPaused || selectedPlaceIndex !== null) return undefined;
+
+    const scrollStep = 1;
+    const scrollInterval = setInterval(() => {
+      row.scrollLeft += scrollStep;
+      if (row.scrollLeft >= row.scrollWidth / 2) {
+        row.scrollLeft = 0;
+      }
+    }, 25);
+
+    return () => clearInterval(scrollInterval);
+  }, [isCarouselPaused, selectedPlaceIndex]);
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setSelectedPlaceIndex(null);
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  useEffect(() => {
+    if (selectedPlaceIndex !== null) {
+      document.body.classList.add('place-preview-open');
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.classList.remove('place-preview-open');
+        document.body.style.overflow = '';
+      };
+    }
+
+    document.body.classList.remove('place-preview-open');
+    document.body.style.overflow = '';
+    return undefined;
+  }, [selectedPlaceIndex]);
+
+  const places = [
     {
-      image: "/assets/images/bali.png",
-      title: "Bali",
-      description: "Spiritual retreats, beautiful beaches, and vibrant culture."
+      image: "/assets/images/chalo-saheli (2).jpeg",
+      type: "Visited"
     },
     {
-      image: "/assets/images/himachal.png",
-      title: "Himachal Pradesh",
-      description: "Breathtaking mountains, peaceful retreats, and adventure sports."
+      image: "/assets/images/chalo-saheli (3).jpeg",
+      type: "Visited"
     },
     {
-      image: "/assets/images/rajasthan.png",
-      title: "Rajasthan",
-      description: "Royal heritage, colorful culture, and desert adventures."
+      image: "/assets/images/chalo-saheli (4).jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (5).jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (6).jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (8).jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (9).jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (10).jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (15).jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (16).jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (17).jpg.jpeg",
+      type: "Visited"
+    },
+    {
+      image: "/assets/images/chalo-saheli (1).jpg",
+      type: "Upcoming"
+    },
+    {
+      image: "/assets/images/chalo-saheli (12).jpeg",
+      type: "Upcoming"
+    },
+    {
+      image: "/assets/images/chalo-saheli (13).jpeg",
+      type: "Upcoming"
+    },
+    {
+      image: "/assets/images/chalo-saheli (7).jpeg",
+      type: "Upcoming"
     }
   ];
+
+  const showPreviousPlace = () => {
+    if (selectedPlaceIndex === null) return;
+    setSelectedPlaceIndex((selectedPlaceIndex - 1 + places.length) % places.length);
+  };
+
+  const showNextPlace = () => {
+    if (selectedPlaceIndex === null) return;
+    setSelectedPlaceIndex((selectedPlaceIndex + 1) % places.length);
+  };
+  const instagramUrl = "https://www.instagram.com/chalo.saheli/";
+  const selectedPlace = selectedPlaceIndex !== null ? places[selectedPlaceIndex] : null;
+
+  const handlePlacesWheel = (event) => {
+    const row = placesRowRef.current;
+    if (!row) return;
+
+    if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+      event.preventDefault();
+      row.scrollLeft += event.deltaY;
+    }
+  };
+
   return (
-    <section className="pt-10 pb-24 px-12 text-center bg-blue-100 relative" id="destinations">
-      <AnimatedElement animation="fade-up">
-        <h2 className="text-4xl mb-5 text-amber-500">Popular Destinations</h2>
-      </AnimatedElement>
-      <AnimatedElement animation="fade-up" delay={0.2}>
-        <p className="text-lg mb-12">Discover new places with confidence and community support</p>
-      </AnimatedElement>
-      <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
-        {destinations.map((destination, index) => (
-          <AnimatedElement
-            key={index}
-            animation="fade-up"
-            delay={0.2 + index * 0.15}
-            className="w-72"
-          >
+    <section className="pt-10 pb-24 px-12 text-center bg-white" id="destinations">
+      <div className="mb-16">
+        <AnimatedElement animation="fade-up">
+          <h2 className="text-4xl mb-5 text-amber-500">Places We've Visited & Upcoming Trips</h2>
+        </AnimatedElement>
+        <AnimatedElement animation="fade-up" delay={0.2}>
+          <p className="text-lg text-gray-700 mb-8">Join us on our journey across incredible destinations</p>
+        </AnimatedElement>
+      </div>
+      <div
+        ref={placesRowRef}
+        className="overflow-x-auto no-scrollbar"
+        onMouseEnter={() => setIsCarouselPaused(true)}
+        onMouseLeave={() => setIsCarouselPaused(false)}
+        onTouchStart={() => setIsCarouselPaused(true)}
+        onTouchEnd={() => setIsCarouselPaused(false)}
+        onWheel={handlePlacesWheel}
+      >
+        <div className="flex w-max gap-6 pb-4">
+          {[...places, ...places].map((place, index) => (
             <div
-              className="bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-3 hover:shadow-xl h-full"
+              key={`${place.image}-${index}`}
+              className="w-[280px] h-[380px] shrink-0 bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl flex flex-col cursor-pointer"
+              onMouseEnter={() => setIsCarouselPaused(true)}
+              onMouseLeave={() => setIsCarouselPaused(false)}
+              onClick={() => setSelectedPlaceIndex(index % places.length)}
             >
-              <div className="h-52 overflow-hidden">
+              <div className="h-[380px] overflow-hidden relative flex-shrink-0">
                 <img
-                  src={destination.image}
-                  alt={destination.title}
-                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                  src={place.image}
+                  className="h-full w-full object-contain transition-transform duration-500 hover:scale-105 bg-gray-50"
                 />
-              </div>
-              <div className="p-5">
-                <h3 className="text-xl mb-3 text-amber-500">{destination.title}</h3>
-                <p>{destination.description}</p>
+                <div className={`absolute top-2 right-2 px-3 py-1 rounded-full text-white text-xs font-bold ${place.type === 'Visited' ? 'bg-green-500' : 'bg-red-500'}`}>
+                  {place.type}
+                </div>
               </div>
             </div>
-          </AnimatedElement>
-        ))}
+          ))}
+        </div>
       </div>
+      {selectedPlaceIndex !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/80"
+            onClick={() => setSelectedPlaceIndex(null)}
+            aria-label="Close image preview backdrop"
+          />
+          <div
+            className="relative z-10 max-w-6xl w-full max-h-[90vh] flex items-center justify-center gap-4"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={showPreviousPlace}
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 text-white text-4xl leading-none hover:text-amber-400 bg-black/40 rounded-full w-12 h-12 flex items-center justify-center"
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedPlaceIndex(null)}
+              className="absolute top-3 right-3 text-white text-2xl leading-none hover:text-amber-400 bg-black/55 rounded-full w-10 h-10 flex items-center justify-center"
+              aria-label="Close image preview"
+            >
+              x
+            </button>
+            <button
+              type="button"
+              onClick={showNextPlace}
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 text-white text-4xl leading-none hover:text-amber-400 bg-black/40 rounded-full w-12 h-12 flex items-center justify-center"
+              aria-label="Next image"
+            >
+              ›
+            </button>
+            <img
+              src={selectedPlace.image}
+              alt="Trip memory"
+              className="max-h-[90vh] w-auto max-w-[78vw] object-contain rounded-lg"
+            />
+            <div className="w-48 sm:w-56 bg-black/60 backdrop-blur-sm rounded-xl p-4 text-left">
+              <p className="text-white text-xs uppercase tracking-wide mb-2">Status</p>
+              <span className={`inline-block px-3 py-1 rounded-full text-white text-xs font-bold ${selectedPlace.type === 'Visited' ? 'bg-green-500' : 'bg-red-500'}`}>
+                {selectedPlace.type}
+              </span>
+              {selectedPlace.type === 'Upcoming' && (
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex w-full justify-center px-4 py-2 rounded-full bg-amber-500 text-white text-xs font-semibold hover:bg-amber-600 transition-colors"
+                >
+                  Book / Contact
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
@@ -449,7 +629,7 @@ const HomePage = () => {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
       <HeroSection />
       <AboutSection />
-      <DestinationsSection />
+      <PlacesVisitedSection />
       <CounterSection />
       <CommunitySection />
       <SafetySection />

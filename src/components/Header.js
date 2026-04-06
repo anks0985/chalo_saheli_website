@@ -10,28 +10,64 @@ function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
       if (location.pathname === '/') {
+        const hashSection = location.hash.replace('#', '');
+        if (hashSection === 'contact') {
+          const contactSection = document.getElementById('contact');
+          if (contactSection) {
+            const contactRect = contactSection.getBoundingClientRect();
+            if (contactRect.top <= window.innerHeight - 120) {
+              setActiveSection('contact');
+              return;
+            }
+          }
+        }
+
+        const nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
+        if (nearBottom) {
+          setActiveSection('contact');
+          return;
+        }
+
         const sections = ['about', 'destinations', 'community', 'safety', 'stories', 'contact'];
+        const checkPoint = Math.max(100, Math.floor(window.innerHeight * 0.45));
+        let sectionFound = false;
         for (const section of sections) {
           const element = document.getElementById(section);
           if (element) {
             const rect = element.getBoundingClientRect();
-            if (rect.top <= 100 && rect.bottom >= 100) {
+            if (rect.top <= checkPoint && rect.bottom >= checkPoint) {
               setActiveSection(section);
+              sectionFound = true;
               break;
             }
           }
         }
+        if (!sectionFound) {
+          setActiveSection('');
+        }
       }
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const handleNavigationClick = (item, event) => {
+    if (item.section === 'contact' && location.pathname === '/') {
+      event.preventDefault();
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setActiveSection('contact');
+      }
+    }
+    setIsMenuOpen(false);
+  };
   const navigationItems = [
     { name: 'About Us', href: '/#about', section: 'about' },
-    { name: 'Destinations', href: '/#destinations', section: 'destinations' },
+    { name: "Destinations", href: '/#destinations', section: 'destinations' },
     { name: 'Community', href: '/#community', section: 'community' },
     { name: 'Safety', href: '/#safety', section: 'safety' },
     { name: 'Stories', href: '/#stories', section: 'stories' },
@@ -70,6 +106,7 @@ function Header() {
                       ? 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
                       : 'text-white hover:bg-white/20'
                     }`}
+                  onClick={(event) => handleNavigationClick(item, event)}
                 >
                   {item.name}
                 </a>
@@ -106,7 +143,7 @@ function Header() {
                   ? 'text-pink-600 bg-pink-50'
                   : 'text-gray-800 hover:text-pink-600 hover:bg-pink-50'
                   }`}
-                onClick={toggleMenu}
+                onClick={(event) => handleNavigationClick(item, event)}
               >
                 {item.name}
               </a>
